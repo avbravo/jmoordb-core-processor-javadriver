@@ -53,17 +53,17 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     // <editor-fold defaultstate="collapsed" desc="@Inject">
     @Inject
     private Config config;
-     @Inject
-    MongoClient mongoClient;
-     /**
-      * Lee de la configuracion el nombre de la base de datos
-      * que se especifica en @Repository(database={})
-      */
-// Lee de la configuracion el nombre de la base de datos
-     
-       @Inject
+    @Inject
     @ConfigProperty(name = "mongodb.database")
-       private String mongodbDatabase;
+    private String mongodbDatabase;
+    @Inject
+    MongoClient mongoClient;
+    /**
+     * Lee de la configuracion el nombre de la base de datos que se especifica
+     * en @Repository(database={})
+     */
+// Lee de la configuracion el nombre de la base de datos
+
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Supplier">
     @Inject
