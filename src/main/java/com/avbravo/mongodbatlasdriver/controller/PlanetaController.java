@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.controller;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class PlanetaController {
             list = planetaRepository.findAll();
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;

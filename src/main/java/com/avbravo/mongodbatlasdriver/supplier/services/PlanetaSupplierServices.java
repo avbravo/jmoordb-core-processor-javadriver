@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier.services;
 import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.util.DocumentUtil;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
 import java.io.Serializable;
@@ -52,7 +52,7 @@ public class PlanetaSupplierServices implements Serializable {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " error() " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " error() " + e.getLocalizedMessage());
         }
         return Optional.empty();
     }
@@ -72,19 +72,19 @@ public class PlanetaSupplierServices implements Serializable {
        
             List<Document> documentPkList = DocumentUtil.getListValue(document, referenced);
             if (documentPkList == null || documentPkList.isEmpty()) {
-                Test.msg("No se pudo decomponer la lista de id referenced....");
+                MessagesUtil.msg("No se pudo decomponer la lista de id referenced....");
             } else {
                 for (Document documentPk : documentPkList) {
                     Optional<Planeta> optional = findByPK(documentPk, referenced);
                     if (optional.isPresent()) {
                         list.add(optional.get());
                     } else {
-                        Test.warning("No tiene referencia a " + referenced.from());
+                        MessagesUtil.warning("No tiene referencia a " + referenced.from());
                     }
                 }
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " error() " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " error() " + e.getLocalizedMessage());
         }
         return list;
     }

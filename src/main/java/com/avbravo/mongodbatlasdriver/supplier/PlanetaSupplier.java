@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -52,7 +52,7 @@ public class PlanetaSupplier implements Serializable {
             Jsonb jsonb = JsonbBuilder.create();
             planeta = jsonb.fromJson(document.toJson(), Planeta.class);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return planeta;
 

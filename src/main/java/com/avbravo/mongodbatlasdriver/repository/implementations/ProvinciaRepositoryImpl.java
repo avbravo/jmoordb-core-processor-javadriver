@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.ProvinciaSupplier;
@@ -68,7 +68,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
                 cursor.close();
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -85,7 +85,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
             return Optional.of(provincia);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

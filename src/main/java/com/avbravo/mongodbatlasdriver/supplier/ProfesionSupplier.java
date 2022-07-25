@@ -8,7 +8,7 @@ import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
 import com.jmoordb.core.util.DocumentUtil;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
 import com.avbravo.mongodbatlasdriver.model.Profesion;
 import com.avbravo.mongodbatlasdriver.supplier.services.GrupoProfesionSupplierServices;
@@ -100,7 +100,7 @@ GrupoProfesionSupplierServices grupoprofesionSupplierServices;
                 if (grupoprofesionOptional.isPresent()) {
                    profesion.setGrupoprofesion(grupoprofesionOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Grupoprofesion");
+                    MessagesUtil.warning("No tiene referencia a Grupoprofesion");
                 }
             } else {
 
@@ -116,7 +116,7 @@ GrupoProfesionSupplierServices grupoprofesionSupplierServices;
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return profesion;

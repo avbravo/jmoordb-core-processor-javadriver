@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier;
 import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.services.ProvinciaSupplierServices;
@@ -134,7 +134,7 @@ public class CorregimientoSupplier implements Serializable {
                 if (provinciaOptional.isPresent()) {
                     corregimiento.setProvincia(provinciaOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Planeta");
+                    MessagesUtil.warning("No tiene referencia a Planeta");
                 }
             } else {
 
@@ -149,7 +149,7 @@ public class CorregimientoSupplier implements Serializable {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return corregimiento;

@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.controller;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class ProvinciaController {
             list = provinciaRepository.findAll();
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;

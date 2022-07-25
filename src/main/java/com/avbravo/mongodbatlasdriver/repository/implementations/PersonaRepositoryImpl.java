@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Persona;
 import com.avbravo.mongodbatlasdriver.repository.PersonaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.PersonaSupplier;
@@ -66,7 +66,7 @@ public class PersonaRepositoryImpl implements PersonaRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -83,7 +83,7 @@ public class PersonaRepositoryImpl implements PersonaRepository {
 
             return Optional.of(persona);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

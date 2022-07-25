@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.repository.CorregimientoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.CorregimientoSupplier;
@@ -67,7 +67,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return list;
     }
@@ -85,7 +85,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
 
             return Optional.of(corregimiento);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Optional.empty();

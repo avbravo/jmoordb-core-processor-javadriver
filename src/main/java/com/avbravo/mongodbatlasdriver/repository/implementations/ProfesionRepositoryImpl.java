@@ -5,7 +5,7 @@
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.jmoordb.core.annotation.Referenced;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Profesion;
 import com.avbravo.mongodbatlasdriver.repository.ProfesionRepository;
 import com.avbravo.mongodbatlasdriver.supplier.ProfesionSupplier;
@@ -69,7 +69,7 @@ public class ProfesionRepositoryImpl implements ProfesionRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -86,7 +86,7 @@ public class ProfesionRepositoryImpl implements ProfesionRepository {
 
             return Optional.of(profesion);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

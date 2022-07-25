@@ -8,7 +8,7 @@ import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
 import com.jmoordb.core.util.DocumentUtil;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.services.PaisSupplierServices;
@@ -137,7 +137,7 @@ public class ProvinciaSupplier implements Serializable{
                 if (paisOptional.isPresent()) {
                     provincia.setPais(paisOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Planeta");
+                    MessagesUtil.warning("No tiene referencia a Planeta");
                 }
             } else {
 
@@ -155,7 +155,7 @@ public class ProvinciaSupplier implements Serializable{
            
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return provincia;

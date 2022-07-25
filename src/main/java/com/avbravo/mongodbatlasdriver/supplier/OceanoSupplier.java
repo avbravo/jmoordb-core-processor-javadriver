@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -50,7 +50,7 @@ public class OceanoSupplier implements Serializable {
             Jsonb jsonb = JsonbBuilder.create();
             oceano = jsonb.fromJson(document.toJson(), Oceano.class);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
 
         }
         return oceano;

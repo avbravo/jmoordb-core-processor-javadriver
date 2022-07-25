@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Country;
 import com.avbravo.mongodbatlasdriver.repository.CountryRepository;
 import com.avbravo.mongodbatlasdriver.repository.CountryRepository;
@@ -67,7 +67,7 @@ public class CountryRepositoryImpl implements CountryRepository {
             }
 
         } catch (Exception e) {
-           Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+           MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;
@@ -84,7 +84,7 @@ public class CountryRepositoryImpl implements CountryRepository {
             Country country = jsonb.fromJson(doc.toJson(), Country.class);
             return Optional.of(country);
         } catch (Exception e) {
-           Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+           MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

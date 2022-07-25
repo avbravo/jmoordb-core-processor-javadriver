@@ -4,7 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
 import com.avbravo.mongodbatlasdriver.repository.GrupoprofesionRepository;
 import com.avbravo.mongodbatlasdriver.supplier.GrupoprofesionSupplier;
@@ -70,7 +70,7 @@ public class GrupoProfesionRepositoryImpl implements GrupoprofesionRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;
@@ -88,7 +88,7 @@ public class GrupoProfesionRepositoryImpl implements GrupoprofesionRepository {
 
             return Optional.of(grupoprofesion);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

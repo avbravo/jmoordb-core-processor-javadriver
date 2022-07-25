@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier;
 import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Persona;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Profesion;
@@ -114,7 +114,7 @@ public class PersonaSupplier implements Serializable{
                 if (corregimientoOptional.isPresent()) {
                     persona.setCorregimiento(corregimientoOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Corregimiento");
+                    MessagesUtil.warning("No tiene referencia a Corregimiento");
                 }
             } else {
 
@@ -174,7 +174,7 @@ public class PersonaSupplier implements Serializable{
                 if (profesionOptional.isPresent()) {
                     persona.setProfesion(profesionOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Corregimiento");
+                    MessagesUtil.warning("No tiene referencia a Corregimiento");
                 }
             } else {
 
@@ -183,7 +183,7 @@ public class PersonaSupplier implements Serializable{
               //persona.setProfesion(profesionList);
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return persona;

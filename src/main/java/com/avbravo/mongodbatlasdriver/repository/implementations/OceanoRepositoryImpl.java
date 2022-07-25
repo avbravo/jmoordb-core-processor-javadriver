@@ -9,7 +9,7 @@ import com.jmoordb.core.annotation.enumerations.ActivateSort;
 import com.jmoordb.core.annotation.enumerations.CaseSensitive;
 import com.jmoordb.core.annotation.enumerations.TypeOrder;
 import com.jmoordb.core.pagination.Pagination;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
@@ -97,7 +97,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -117,7 +117,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
             return Optional.of(oceano);
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Optional.empty();
@@ -132,7 +132,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             MongoCollection<Document> collection = database.getCollection("oceano");
 
             if (findById(oceano.getIdoceano()).isPresent()) {
-                Test.warning("Eciste un registro con ese id");
+                MessagesUtil.warning("Eciste un registro con ese id");
                 return Optional.empty();
             }
 
@@ -144,7 +144,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Optional.empty();
@@ -160,7 +160,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             MongoCollection<Document> collection = database.getCollection("oceano");
 
             if (!findById(oceano.getIdoceano()).isPresent()) {
-                Test.warning("Eciste un registro con ese id");
+                MessagesUtil.warning("Eciste un registro con ese id");
                 return Boolean.FALSE;
             }
             Bson filter = Filters.empty();
@@ -176,7 +176,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Boolean.FALSE;
@@ -199,7 +199,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Boolean.FALSE;
@@ -225,7 +225,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                 cursor.close();
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -289,7 +289,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -315,7 +315,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return contador;
     }
@@ -412,7 +412,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -462,7 +462,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return contador;
@@ -498,7 +498,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             MongoCursor<Document> cursor;
             if (activatePagination == ActivatePagination.ON) {
                 if (pagination == null || pagination.getPage() < 0) {
-                    Test.msg("Paginación no es valida");
+                    MessagesUtil.msg("Paginación no es valida");
                     return new ArrayList<>();
                 } else {
                     cursor = collection.find(eq("oceano", oceano))
@@ -523,7 +523,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                 cursor.close();
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -561,7 +561,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;
@@ -582,12 +582,12 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                 conected = Boolean.TRUE;
             } catch (MongoException me) {
                 System.err.println("An error occurred while attempting to run a command: " + me);
-                Test.error(Test.nameOfClassAndMethod() + " " + me.getLocalizedMessage());
+                MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + me.getLocalizedMessage());
 
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return conected;

@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier;
 import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
-import com.jmoordb.core.util.Test;
+import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Idioma;
 import com.avbravo.mongodbatlasdriver.model.Musica;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
@@ -158,7 +158,7 @@ public class PaisSupplier implements Serializable {
                 if (planetaOptional.isPresent()) {
                     pais.setPlaneta(planetaOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a Planeta");
+                    MessagesUtil.warning("No tiene referencia a Planeta");
                 }
             } else {
 
@@ -220,7 +220,7 @@ public class PaisSupplier implements Serializable {
                 if (oceanoOptional.isPresent()) {
                     //   pais.setOceano(oceanoOptional.get());
                 } else {
-                    Test.warning("No tiene referencia a " + oceanoReferenced.from());
+                    MessagesUtil.warning("No tiene referencia a " + oceanoReferenced.from());
                 }
             } else {
 
@@ -238,7 +238,7 @@ public class PaisSupplier implements Serializable {
             }
 
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return pais;
