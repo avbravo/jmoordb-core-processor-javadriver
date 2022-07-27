@@ -6,11 +6,9 @@ package com.avbravo.mongodbatlasdriver.repository;
 
 import com.jmoordb.core.annotation.repository.Count;
 import com.jmoordb.core.annotation.repository.CountRegex;
-import com.jmoordb.core.annotation.Mandatory;
 import com.jmoordb.core.annotation.repository.Ping;
 import com.jmoordb.core.annotation.repository.Query;
 import com.jmoordb.core.annotation.repository.QueryRegex;
-import com.jmoordb.core.annotation.repository.Repository;
 import com.jmoordb.core.annotation.enumerations.ActivatePagination;
 import com.jmoordb.core.annotation.enumerations.ActivateSort;
 import com.jmoordb.core.pagination.Pagination;
@@ -23,6 +21,7 @@ import com.jmoordb.core.annotation.RepositoryMongoDB;
 import com.jmoordb.core.annotation.enumerations.CaseSensitive;
 import com.jmoordb.core.annotation.enumerations.JakartaSource;
 import com.jmoordb.core.annotation.enumerations.TypeOrder;
+import com.jmoordb.core.sorted.Sorted;
 
 /**
  *
@@ -44,8 +43,8 @@ public interface OceanoRepository {
     @Query(where = "idoceano = @idoceano and oceano = @oceano")
     public List<Oceano> findByIdoceanoAndOceano(String idoceano, String oceano);
 
-    @Query(where = "oceano = @oceano", activatePagination = ActivatePagination.ON, activateSort = ActivateSort.ON)
-    public List<Oceano> findByOceanoPagination(String oceano, Pagination pagination, Document sort);
+    @Query(where = "oceano = @oceano .limit. pagination .skip. @pagination .order. sorted .by. @sorted")
+    public List<Oceano> findByOceanoPagination(String oceano, Pagination pagination, Sorted sorted);
 
     @QueryJSON(activatePagination = ActivatePagination.ON, activateSort = ActivateSort.ON)
     public List<Oceano> queryJSON(Document filter, Pagination pagination, Document... sort);

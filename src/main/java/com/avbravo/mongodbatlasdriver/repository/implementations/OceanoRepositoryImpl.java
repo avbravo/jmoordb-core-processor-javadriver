@@ -13,6 +13,7 @@ import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
+import com.jmoordb.core.sorted.Sorted;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
@@ -477,7 +478,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
      * @return List<Entity> de la consulta aplicando paginación
      */
     @Override
-    public List<Oceano> findByOceanoPagination(String oceano, Pagination pagination, Document sort) {
+    public List<Oceano> findByOceanoPagination(String oceano, Pagination pagination, Sorted sorted) {
         List<Oceano> list = new ArrayList<>();
         try {
             /**
@@ -504,13 +505,13 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                     cursor = collection.find(eq("oceano", oceano))
                             .skip(pagination.skip())
                             .limit(pagination.limit())
-                            .sort(sort)
+                            .sort(sorted.getSort())
                             .iterator();
                 }
 
             } else {
                 cursor = collection.find(eq("oceano", oceano))
-                        .sort(sort)
+                        .sort(sorted.getSort())
                         .iterator();
             }
 
