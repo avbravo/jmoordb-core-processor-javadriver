@@ -13,12 +13,10 @@ import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
+import com.jmoordb.core.search.Search;
 import com.jmoordb.core.sorted.Sorted;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -30,7 +28,6 @@ import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -243,7 +240,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
      * paginacion
      */
     @Override
-    public List<Oceano> queryJSON(Document filter, Pagination pagination, Document... sort) {
+    public List<Oceano> queryJSON(Search search, Pagination pagination,Sorted... sorted) {
         List<Oceano> list = new ArrayList<>();
         Document sortQuery = new Document();
         try {
@@ -258,8 +255,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              * DataBase
              */
             if (activateSort == ActivateSort.ON) {
-                if (sort.length != 0) {
-                    sortQuery = sort[0];
+                if (sorted.length != 0) {
+                    sortQuery = sorted[0].getSort();
                 }
             }
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
@@ -267,9 +264,9 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             MongoCursor<Document> cursor;
             if (activatePagination == ActivatePagination.ON) {
                 if (pagination == null || pagination.getPage() < 1) {
-                    cursor = collection.find(filter).sort(sortQuery).iterator();
+                    cursor = collection.find(search.getFilter()).sort(sortQuery).iterator();
                 } else {
-                    cursor = collection.find(filter)
+                    cursor = collection.find(search.getFilter())
                             .skip(pagination.skip())
                             .limit(pagination.limit())
                             .sort(sortQuery).iterator();
@@ -277,7 +274,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
             } else {
 
-                cursor = collection.find(filter)
+                cursor = collection.find(search.getFilter())
                         .sort(sortQuery).iterator();
             }
 

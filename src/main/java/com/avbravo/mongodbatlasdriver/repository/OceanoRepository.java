@@ -10,17 +10,17 @@ import com.jmoordb.core.annotation.repository.Ping;
 import com.jmoordb.core.annotation.repository.Query;
 import com.jmoordb.core.annotation.repository.QueryRegex;
 import com.jmoordb.core.annotation.enumerations.ActivatePagination;
-import com.jmoordb.core.annotation.enumerations.ActivateSort;
 import com.jmoordb.core.pagination.Pagination;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import java.util.List;
 import java.util.Optional;
 import org.bson.Document;
-import com.jmoordb.core.annotation.repository.QueryJSON;
 import com.jmoordb.core.annotation.RepositoryMongoDB;
 import com.jmoordb.core.annotation.enumerations.CaseSensitive;
 import com.jmoordb.core.annotation.enumerations.JakartaSource;
 import com.jmoordb.core.annotation.enumerations.TypeOrder;
+import com.jmoordb.core.annotation.repository.Searcher;
+import com.jmoordb.core.search.Search;
 import com.jmoordb.core.sorted.Sorted;
 
 /**
@@ -46,8 +46,8 @@ public interface OceanoRepository {
     @Query(where = "oceano = @oceano .limit. pagination .skip. @pagination .order. sorted .by. @sorted")
     public List<Oceano> findByOceanoPagination(String oceano, Pagination pagination, Sorted sorted);
 
-    @QueryJSON(activatePagination = ActivatePagination.ON, activateSort = ActivateSort.ON)
-    public List<Oceano> queryJSON(Document filter, Pagination pagination, Document... sort);
+    @Searcher()
+    public List<Oceano> queryJSON(Search search, Pagination pagination, Sorted... sorted);
 
     @QueryRegex(field = "oceano", activatePagination = ActivatePagination.ON, caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
     public List<Oceano> findRegex(String value, Pagination pagination);
