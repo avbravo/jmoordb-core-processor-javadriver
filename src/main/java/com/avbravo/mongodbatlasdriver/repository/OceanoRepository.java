@@ -5,7 +5,6 @@
 package com.avbravo.mongodbatlasdriver.repository;
 
 import com.jmoordb.core.annotation.repository.Count;
-import com.jmoordb.core.annotation.repository.CountRegex;
 import com.jmoordb.core.annotation.repository.Ping;
 import com.jmoordb.core.annotation.repository.Query;
 import com.jmoordb.core.annotation.enumerations.ActivatePagination;
@@ -22,6 +21,7 @@ import com.jmoordb.core.model.Search;
 import com.jmoordb.core.model.Sorted;
 import com.jmoordb.core.annotation.repository.Lookup;
 import com.jmoordb.core.annotation.repository.Regex;
+import com.jmoordb.core.annotation.repository.RegexCount;
 
 /**
  *
@@ -55,7 +55,7 @@ public interface OceanoRepository {
     @Count()
     public Integer count(Document... query);
 
-    @CountRegex(field = "oceano", caseSensitive = CaseSensitive.NO)
+    @RegexCount(where = "oceano .like. @oceano", caseSensitive = CaseSensitive.NO)
     public Integer countRegex(String value);
 
     public Optional<Oceano> save(Oceano oceano);
