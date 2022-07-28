@@ -8,7 +8,6 @@ import com.jmoordb.core.annotation.repository.Count;
 import com.jmoordb.core.annotation.repository.CountRegex;
 import com.jmoordb.core.annotation.repository.Ping;
 import com.jmoordb.core.annotation.repository.Query;
-import com.jmoordb.core.annotation.repository.QueryRegex;
 import com.jmoordb.core.annotation.enumerations.ActivatePagination;
 import com.jmoordb.core.model.Pagination;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
@@ -22,6 +21,7 @@ import com.jmoordb.core.annotation.enumerations.TypeOrder;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.model.Sorted;
 import com.jmoordb.core.annotation.repository.Lookup;
+import com.jmoordb.core.annotation.repository.Regex;
 
 /**
  *
@@ -49,7 +49,7 @@ public interface OceanoRepository {
     @Lookup()
     public List<Oceano> queryJSON(Search search, Pagination pagination, Sorted... sorted);
 
-    @QueryRegex(field = "oceano", activatePagination = ActivatePagination.ON, caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    @Regex(where= "oceano",  caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
     public List<Oceano> findRegex(String value, Pagination pagination);
 
     @Count()
