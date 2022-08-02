@@ -39,6 +39,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
      @Inject
     @ConfigProperty(name = "mongodb.database")
        private String mongodbDatabase;
+      private String mongodbCollection = "planeta";
     @Inject
     MongoClient mongoClient;
 // </editor-fold>
@@ -57,7 +58,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
 
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
      
-            MongoCollection<Document> collection = database.getCollection("planeta");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             /**
              * Es una entidad de nivel 0
              * LookupSupplier.ZERO no usa lookup
@@ -87,7 +88,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("planeta");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             /**
              * Es una entidad de nivel 0
              * LookupSupplier.ZERO no usa lookup

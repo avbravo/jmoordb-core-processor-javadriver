@@ -31,16 +31,16 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class PersonaRepositoryImpl implements PersonaRepository {
 
     // <editor-fold defaultstate="collapsed" desc="@Inject">
-
     @Inject
     private Config config;
-     @Inject
+    @Inject
     @ConfigProperty(name = "mongodb.database")
-       private String mongodbDatabase;
+    private String mongodbDatabase;
+    private String mongodbCollection = "persona";
     @Inject
     MongoClient mongoClient;
 // </editor-fold>
-            // <editor-fold defaultstate="collapsed" desc="Supplier">
+    // <editor-fold defaultstate="collapsed" desc="Supplier">
     @Inject
     PersonaSupplier personaSupplier;
 // </editor-fold>
@@ -49,41 +49,41 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     @Override
     public List<Persona> findAll() {
 
-      List<Persona> list = new ArrayList<>();
+        List<Persona> list = new ArrayList<>();
         try {
-        
+
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("persona");
-            
-       
-          MongoCursor<Document> cursor = collection.find().iterator();
-        try {
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
                 while (cursor.hasNext()) {
-                           list.add(personaSupplier.get(Persona::new, cursor.next()));
+                    list.add(personaSupplier.get(Persona::new, cursor.next()));
                 }
             } finally {
                 cursor.close();
             }
 
         } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return list;
     }
 // </editor-fold>
+
     @Override
     public Optional<Persona> findById(String id) {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("persona");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idpersona", id)).first();
-           
-            Persona persona = personaSupplier.get(Persona::new,doc);
+
+            Persona persona = personaSupplier.get(Persona::new, doc);
 
             return Optional.of(persona);
         } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return Optional.empty();

@@ -54,6 +54,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     @Inject
     @ConfigProperty(name = "mongodb.database")
     private String mongodbDatabase;
+    
+      private String mongodbCollection = "oceano";
     @Inject
     MongoClient mongoClient;
     /**
@@ -77,7 +79,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
 
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             /**
              * Es una entidad de nivel 0 LookupSupplier.ZERO no usa lookup
@@ -108,7 +110,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idoceano", id)).first();
 
             Oceano oceano = oceanoSupplier.get(Oceano::new, doc);
@@ -127,7 +129,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     public Optional<Oceano> save(Oceano oceano) {
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             if (findById(oceano.getIdoceano()).isPresent()) {
                 MessagesUtil.warning("Eciste un registro con ese id");
@@ -155,7 +157,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     public Boolean update(Oceano oceano) {
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             if (!findById(oceano.getIdoceano()).isPresent()) {
                 MessagesUtil.warning("Eciste un registro con ese id");
@@ -187,7 +189,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     public Boolean delete(String id) {
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Bson filter = Filters.eq("idoceano", id);
             DeleteResult deleteResult = collection.deleteOne(filter);
 
@@ -210,7 +212,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         List<Oceano> list = new ArrayList<>();
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             MongoCursor<Document> cursor = collection.find(eq("oceano", oceano)).iterator();
 
@@ -260,7 +262,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                 }
             }
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             MongoCursor<Document> cursor;
             if (activatePagination == ActivatePagination.ON) {
                 if (pagination == null || pagination.getPage() < 1) {
@@ -304,7 +306,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
                 whereCondition = query[0];
             }
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             if (whereCondition.isEmpty()) {
                 contador = (int) collection.countDocuments();
             } else {
@@ -341,7 +343,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              * DataBase
              */
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             /**
              * Generar el patron
@@ -438,7 +440,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              */
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
 
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             /**
              * Generar el patron
@@ -487,7 +489,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             TypeOrder typeOrder = TypeOrder.ASC;
 
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             /**
              * Lee de la anotación @Query la propiedad activatePagination =
@@ -544,7 +546,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              * DataBase
              */
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             MongoCursor<Document> cursor;
 
             cursor = collection.find(filter)

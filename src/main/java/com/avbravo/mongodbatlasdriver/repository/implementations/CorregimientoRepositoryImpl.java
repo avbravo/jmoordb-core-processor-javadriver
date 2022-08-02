@@ -32,6 +32,8 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
        // <editor-fold defaultstate="collapsed" desc="Supplier">
     @Inject
     CorregimientoSupplier corregimientoSupplier;
+    
+    
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
@@ -40,6 +42,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
      @Inject
     @ConfigProperty(name = "mongodb.database")
        private String mongodbDatabase;
+      private String mongodbCollection = "corregimiento";
     @Inject
     MongoClient mongoClient;
 // </editor-fold>
@@ -52,7 +55,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
         try {
 
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("corregimiento");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             MongoCursor<Document> cursor = collection.find().iterator();
 
@@ -78,7 +81,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("corregimiento");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idcorregimiento", id)).first();
 
             Corregimiento corregimiento = corregimientoSupplier.get(Corregimiento::new, doc);

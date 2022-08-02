@@ -37,6 +37,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
      @Inject
     @ConfigProperty(name = "mongodb.database")
        private String mongodbDatabase;
+      private String mongodbCollection = "provincia";
     @Inject
     MongoClient mongoClient;
 // </editor-fold>
@@ -53,7 +54,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
         try {
            
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("provincia");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
               /**
              * Ejecuta la consulta
              */
@@ -78,7 +79,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("provincia");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idprovincia", id)).first();
            
             Provincia provincia =provinciaSupplier.get(Provincia::new,doc);

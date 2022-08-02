@@ -38,9 +38,7 @@ public class CountryRepositoryImpl implements CountryRepository {
      @Inject
     @ConfigProperty(name = "mongodb.database")
        private String mongodbDatabase;
-    @Inject
-    @ConfigProperty(name = "mongodb.uri")
-    private String mongodburi;
+   private String mongodbCollection = "country";
  
     @Inject
     MongoClient mongoClient;
@@ -53,7 +51,7 @@ public class CountryRepositoryImpl implements CountryRepository {
 
             MongoDatabase database = mongoClient.getDatabase("autentification");
      
-            MongoCollection<Document> collection = database.getCollection("country");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
 
             MongoCursor<Document> cursor = collection.find().iterator();
             Jsonb jsonb = JsonbBuilder.create();
@@ -78,7 +76,7 @@ public class CountryRepositoryImpl implements CountryRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase("autentification");
-            MongoCollection<Document> collection = database.getCollection("country");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idcountry", id)).first();
             Jsonb jsonb = JsonbBuilder.create();
             Country country = jsonb.fromJson(doc.toJson(), Country.class);
