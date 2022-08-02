@@ -593,4 +593,31 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return conected;
     }
     // </editor-fold>
+    
+    
+     // <editor-fold defaultstate="collapsed" desc="Optional<Oceano> findBPKOfEntity(String id) ">
+    /**
+     * Método interno que se usa para buscar por la llave primaria
+     * @param id
+     * @return 
+     */
+    
+    private Optional<Oceano> findBPKOfEntity(String id) {
+
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Document doc = collection.find(eq("idoceano", id)).first();
+
+            Oceano oceano = oceanoSupplier.get(Oceano::new, doc);
+
+            return Optional.of(oceano);
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return Optional.empty();
+    }
+    // </editor-fold>
+     
 }
