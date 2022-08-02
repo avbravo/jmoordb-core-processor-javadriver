@@ -38,6 +38,7 @@ public class ProfesionRepositoryImpl implements ProfesionRepository {
      @Inject
     @ConfigProperty(name = "mongodb.database")
        private String mongodbDatabase;
+        private String mongodbCollection = "profesion";
     @Inject
     MongoClient mongoClient;
     
@@ -57,7 +58,7 @@ public class ProfesionRepositoryImpl implements ProfesionRepository {
         try {
         
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("profesion");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             
               MongoCursor<Document> cursor = collection.find().iterator();
             try {
@@ -79,7 +80,7 @@ public class ProfesionRepositoryImpl implements ProfesionRepository {
 
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection("profesion");
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             Document doc = collection.find(eq("idprofesion", id)).first();
            
             Profesion profesion = profesionSupplier.get(Profesion::new,doc);
