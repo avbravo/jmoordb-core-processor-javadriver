@@ -7,14 +7,12 @@ package com.avbravo.mongodbatlasdriver.supplier;
 import com.jmoordb.core.annotation.Referenced;
 import com.jmoordb.core.annotation.enumerations.TypePK;
 import com.jmoordb.core.annotation.enumerations.TypeReferenced;
-import com.jmoordb.core.util.DocumentUtil;
 import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
 import com.avbravo.mongodbatlasdriver.model.Profesion;
 import com.avbravo.mongodbatlasdriver.supplier.services.GrupoProfesionSupplierServices;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -49,7 +47,7 @@ GrupoProfesionSupplierServices grupoprofesionSupplierServices;
         try {
             
 
-            profesion.setIdprofesion(String.valueOf(document.get("idprofesion")));
+            profesion.setIdprofesion(Integer.parseInt(String.valueOf(document.get("idprofesion"))));
             profesion.setProfesion(String.valueOf(document.get("profesion")));
 
             Referenced grupoprofesionReferenced = new Referenced() {

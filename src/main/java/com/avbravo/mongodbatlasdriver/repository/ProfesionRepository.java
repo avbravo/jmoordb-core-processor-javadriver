@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository;
 
+import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.jmoordb.core.annotation.repository.Query;
 import com.jmoordb.core.annotation.RepositoryMongoDB;
 import com.avbravo.mongodbatlasdriver.model.Profesion;
@@ -23,6 +24,8 @@ public interface ProfesionRepository {
     public Optional<Profesion> findById(String id);
     @Query(where = "profesion = :profesion")
     public List<Profesion> findByProfesion(String profesion);
-    public Profesion save(Profesion profesion);
+   public Optional<Profesion> save(Profesion profesion);
+    
+    public Boolean saveProfesion(Profesion profesion);
     public Boolean deleteById(String id);
 }
