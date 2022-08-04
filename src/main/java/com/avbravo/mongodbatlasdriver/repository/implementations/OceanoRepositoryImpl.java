@@ -336,7 +336,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              * Leer la anotacion @QueryRegex field
              */
             String field = "oceano";
-            ActivatePagination activatePagination = ActivatePagination.ON;
+//            ActivatePagination activatePagination = ActivatePagination.ON;
             CaseSensitive caseSensitive = CaseSensitive.NO;
             TypeOrder typeOrder = TypeOrder.ASC;
             /**

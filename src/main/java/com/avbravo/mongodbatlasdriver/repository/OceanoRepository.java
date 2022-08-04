@@ -7,7 +7,6 @@ package com.avbravo.mongodbatlasdriver.repository;
 import com.jmoordb.core.annotation.repository.Count;
 import com.jmoordb.core.annotation.repository.Ping;
 import com.jmoordb.core.annotation.repository.Query;
-import com.jmoordb.core.annotation.enumerations.ActivatePagination;
 import com.jmoordb.core.model.Pagination;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import java.util.List;
