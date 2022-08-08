@@ -54,8 +54,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     @Inject
     @ConfigProperty(name = "mongodb.database")
     private String mongodbDatabase;
-    
-      private String mongodbCollection = "oceano";
+
+    private String mongodbCollection = "oceano";
     @Inject
     MongoClient mongoClient;
     /**
@@ -242,7 +242,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
      * paginacion
      */
     @Override
-    public List<Oceano> queryJSON(Search search, Pagination pagination,Sorted... sorted) {
+    public List<Oceano> queryJSON(Search search, Pagination pagination, Sorted... sorted) {
         List<Oceano> list = new ArrayList<>();
         Document sortQuery = new Document();
         try {
@@ -575,16 +575,16 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
 
-            try {
-                Bson command = new BsonDocument("ping", new BsonInt64(1));
-                Document commandResult = database.runCommand(command);
-                System.out.println("Connected successfully to server.");
-                conected = Boolean.TRUE;
-            } catch (MongoException me) {
-                System.err.println("An error occurred while attempting to run a command: " + me);
-                MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + me.getLocalizedMessage());
-
-            }
+//            try {
+            Bson command = new BsonDocument("ping", new BsonInt64(1));
+            Document commandResult = database.runCommand(command);
+            System.out.println("Connected successfully to server.");
+            conected = Boolean.TRUE;
+//            } catch (MongoException me) {
+//                System.err.println("An error occurred while attempting to run a command: " + me);
+//                MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + me.getLocalizedMessage());
+//
+//            }
 
         } catch (Exception e) {
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
@@ -593,15 +593,14 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return conected;
     }
     // </editor-fold>
-    
-    
-     // <editor-fold defaultstate="collapsed" desc="Optional<Oceano> findBPKOfEntity(String id) ">
+
+    // <editor-fold defaultstate="collapsed" desc="Optional<Oceano> findBPKOfEntity(String id) ">
     /**
      * Método interno que se usa para buscar por la llave primaria
+     *
      * @param id
-     * @return 
+     * @return
      */
-    
     private Optional<Oceano> findBPKOfEntity(String id) {
 
         try {
@@ -619,5 +618,5 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return Optional.empty();
     }
     // </editor-fold>
-     
+
 }
