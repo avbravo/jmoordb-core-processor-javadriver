@@ -15,7 +15,6 @@ import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.model.Sorted;
-import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -26,8 +25,10 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -619,4 +620,89 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="List<Oceano> lookup(Search search)">
+    public List<Oceano> lookup(Search search) {
+        List<Oceano> list = new ArrayList<>();
+
+        Document sortQuery = new Document();
+        try {
+
+            MongoDatabase database = mongoClient.getDatabase("world");
+            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCursor<Document> cursor;
+
+            if (search.getSorted().getSort() == null || search.getSorted().getSort().isEmpty()) {
+            } else {
+                sortQuery = search.getSorted().getSort();
+            }
+            if (search.getPagination() == null || search.getPagination().getPage() < 1) {
+                cursor = collection.find(search.getFilter()).sort(sortQuery).iterator();
+            } else {
+                cursor = collection.find(search.getFilter())
+                        .skip(search.getPagination().skip())
+                        .limit(search.getPagination().limit())
+                        .sort(sortQuery).iterator();
+            }
+
+            try {
+                while (cursor.hasNext()) {
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return list;
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Set<Oceano> lookupSet(Search search)">
+    /**
+     * Set
+     *
+     * @param search
+     * @return
+     */
+    public Set<Oceano> lookupSet(Search search) {
+        List<Oceano> list = new ArrayList<>();
+
+        Document sortQuery = new Document();
+        try {
+
+            MongoDatabase database = mongoClient.getDatabase("world");
+            MongoCollection<Document> collection = database.getCollection("oceano");
+            MongoCursor<Document> cursor;
+
+            if (search.getSorted().getSort() == null || search.getSorted().getSort().isEmpty()) {
+            } else {
+                sortQuery = search.getSorted().getSort();
+            }
+            if (search.getPagination() == null || search.getPagination().getPage() < 1) {
+                cursor = collection.find(search.getFilter()).sort(sortQuery).iterator();
+            } else {
+                cursor = collection.find(search.getFilter())
+                        .skip(search.getPagination().skip())
+                        .limit(search.getPagination().limit())
+                        .sort(sortQuery).iterator();
+            }
+
+            try {
+                while (cursor.hasNext()) {
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+        Set<Oceano> targetSet = new HashSet<>(list);
+        return targetSet;
+    }
+// </editor-fold>
 }
