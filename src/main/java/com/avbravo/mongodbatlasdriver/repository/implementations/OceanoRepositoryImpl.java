@@ -705,4 +705,30 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return targetSet;
     }
 // </editor-fold>
+    
+    
+   
+    public Long count(Search... search) {
+      Long contador = 0L;
+        try {
+            Document whereCondition = new Document();
+            if (search.length != 0) {
+                whereCondition = search[0].getFilter();
+            }
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            if (whereCondition.isEmpty()) {
+//                contador = (int) collection.countDocuments();
+                contador = collection.countDocuments();
+            } else {
+               // contador = (int) collection.countDocuments(whereCondition);
+             contador = collection.countDocuments(whereCondition);
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+        return contador;
+    }
+    // </editor-fold>
 }
