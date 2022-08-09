@@ -27,6 +27,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import static javax.management.Query.value;
 import org.bson.BsonDocument;
 import org.bson.BsonInt64;
 import org.bson.Document;
@@ -898,5 +900,106 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return 0L;
     }
     // </editor-fold> 
+   @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano ")
+   public Long delete(String idoceano, String oceano){
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Bson filter = Filters.and(
+                          Filters.eq("idoceano", idoceano)
+                         ,Filters.ne("oceano",oceano)
+                        );
+            DeleteResult deleteResult = collection.deleteOne(filter);
 
+            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
+            return deleteResult.getDeletedCount();
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+   }
+    // </editor-fold> 
+   @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha")
+   public Long deleteIdOceanoAndOceanoNotFecha(String idoceano, String oceano, Date fecha){
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Bson filter = Filters.and(
+                          Filters.eq("idoceano", idoceano)
+                         ,Filters.ne("oceano",oceano)
+                         ,Filters.not(
+                           Filters.gt("fecha", fecha)
+                         )
+                         );
+            DeleteResult deleteResult = collection.deleteOne(filter);
+
+            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
+            return deleteResult.getDeletedCount();
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+   }
+    // </editor-fold> 
+   @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha .or. activo .ne. @activo")
+   public Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo){
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Bson filter = Filters.and(
+                          Filters.eq("idoceano", idoceano)
+                         ,Filters.ne("oceano",oceano)
+                         ,Filters.not(
+                           Filters.gt("fecha", fecha)
+                         ),
+                         Filters.or(
+                           Filters.ne("activo", activo)  
+                         )
+                    
+                         );
+            DeleteResult deleteResult = collection.deleteOne(filter);
+
+            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
+            return deleteResult.getDeletedCount();
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+   }
+   @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha .or. activo .ne. @activo .and. km .gt. km")
+   public Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo, Integer km){
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Bson filter = Filters.and(
+                          Filters.eq("idoceano", idoceano)
+                         ,Filters.ne("oceano",oceano)
+                         ,Filters.not(
+                           Filters.gt("fecha", fecha)
+                         ),
+                         Filters.or(
+                           Filters.ne("activo", activo)  
+                         ),
+                         Filters.and(
+                          Filters.gt("km",km)
+                          )
+                    
+                         );
+            DeleteResult deleteResult = collection.deleteOne(filter);
+
+            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
+            return deleteResult.getDeletedCount();
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+   }
 }
