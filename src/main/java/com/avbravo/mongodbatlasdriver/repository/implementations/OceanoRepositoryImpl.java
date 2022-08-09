@@ -13,6 +13,7 @@ import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
+import com.jmoordb.core.annotation.repository.Delete;
 import com.jmoordb.core.annotation.repository.Regex;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.model.Sorted;
@@ -879,6 +880,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Boolean delete(String id) "> 
     @Override
+    //@Delete(where = "idoceano .eq. @idoceano")
     public Long delete(String idoceano) {
         try {
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
