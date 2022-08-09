@@ -297,31 +297,6 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Integer count(Document... query">
-    @Override
-    public Integer count(Document... query) {
-        Integer contador = 0;
-        try {
-            Document whereCondition = new Document();
-            if (query.length != 0) {
-                whereCondition = query[0];
-            }
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-            if (whereCondition.isEmpty()) {
-                contador = (int) collection.countDocuments();
-            } else {
-                //  Document docQuery = DocumentUtil.jsonToDocument(whereCondition);
-                contador = (int) collection.countDocuments(whereCondition);
-            }
-
-        } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
-        return contador;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="List<Oceano> findRegex(String query)">
     /**
      *
@@ -419,56 +394,6 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return list;
     }
 // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Integer countRegex(String value)">
-    /**
-     *
-     * @param value
-     * @return total de documentos que cumolen con la condicion Regex
-     */
-    @Override
-    public Integer countRegex(String value) {
-        Integer contador = 0;
-        try {
-            /**
-             * Leer la anotacion @CountRegex
-             */
-            String field = "oceano";
-            CaseSensitive caseSensitive = CaseSensitive.NO;
-
-            /**
-             * Leer la base de datos
-             */
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-
-            /**
-             * Generar el patron
-             */
-            Pattern regex = Pattern.compile(value);
-
-            MongoCursor<Document> cursor;
-
-            /**
-             * Verificar si usara pagainación o no. Verificar si s usara
-             * caseSemsitive
-             */
-            if (caseSensitive == CaseSensitive.NO) {
-                contador = (int) collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value)));
-
-            } else {
-                contador = (int) collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value).append("$options", "i")));
-
-            }
-
-        } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
-
-        return contador;
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="List<Oceano> findByOceanoPagination(String oceano, Pagination pagination) ">
     /**
@@ -705,17 +630,15 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return targetSet;
     }
 // </editor-fold>
-    
-    
-    // <editor-fold defaultstate="collapsed" desc="Long count(Search... search)">
 
+    // <editor-fold defaultstate="collapsed" desc="Long count(Search... search)">
     public Long count(Search... search) {
         Long contador = 0L;
         try {
-           
+
             MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
             MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-            
+
             Document whereCondition = new Document();
             if (search.length != 0) {
                 whereCondition = search[0].getFilter();
@@ -724,7 +647,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 //                contador = (int) collection.countDocuments();
                 contador = collection.countDocuments();
             } else {
-               // contador = (int) collection.countDocuments(whereCondition);
+                // contador = (int) collection.countDocuments(whereCondition);
                 contador = collection.countDocuments(whereCondition);
             }
 
@@ -734,4 +657,38 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return contador;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Long countRegex(String value)">
+    /**
+     *
+     * @param value
+     * @return total de documentos que cumolen con la condicion Regex
+     */
+    @Override
+    public Long countRegex(String value) {
+        Long contador = 0L;
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            /**
+             * Generar el patron
+             */
+           // Pattern regex = Pattern.compile(value);
+
+        
+            if (caseSensitive.equals(CaseSensitive.NO) ) {
+                contador = collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value)));
+            } else {
+                contador = collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value).append("$options", "i")));
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return contador;
+    }
+    // </editor-fold>
+
 }
