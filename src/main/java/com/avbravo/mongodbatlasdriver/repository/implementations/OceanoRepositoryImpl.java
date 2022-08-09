@@ -186,28 +186,6 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     }
     // </editor-fold>  
 
-    // <editor-fold defaultstate="collapsed" desc="Boolean delete(String id) "> 
-    @Override
-    public Boolean delete(String id) {
-        try {
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-            Bson filter = Filters.eq("idoceano", id);
-            DeleteResult deleteResult = collection.deleteOne(filter);
-
-            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
-            if (deleteResult.getDeletedCount() > 0) {
-                return Boolean.TRUE;
-            }
-
-        } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
-
-        return Boolean.FALSE;
-    }
-    // </editor-fold> 
-
     // <editor-fold defaultstate="collapsed" desc="List<Oceano> findByOceano(String contry)">
     @Override
     public List<Oceano> findByOceano(String oceano) {
@@ -620,7 +598,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             /**
              * Generar el patron
              */
-       //     Pattern regex = Pattern.compile(oceano);
+            //     Pattern regex = Pattern.compile(oceano);
             /**
              * Generar ordenación 1. Se usa el atriiuto field de la anotacion
              *
@@ -882,5 +860,41 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return list;
     }
 // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Boolean delete(String id) "> 
+
+    public Long delete(Search search) {
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            
+            DeleteResult deleteResult = collection.deleteOne(search.getFilter());
+            return deleteResult.getDeletedCount();
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+    }
+    // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Boolean delete(String id) "> 
+    @Override
+    public Long delete(String idoceano) {
+        try {
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            Bson filter = Filters.eq("idoceano", idoceano);
+            DeleteResult deleteResult = collection.deleteOne(filter);
+
+            System.out.println("Modified document count: " + deleteResult.getDeletedCount());
+            return deleteResult.getDeletedCount();
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return 0L;
+    }
+    // </editor-fold> 
 
 }

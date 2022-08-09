@@ -73,7 +73,7 @@ public interface OceanoRepository {
 
     public Boolean update(Oceano oceano);
 
-    public Boolean delete(String id);
+    public Long delete(String id);
 
     @Ping
     public Boolean ping();
