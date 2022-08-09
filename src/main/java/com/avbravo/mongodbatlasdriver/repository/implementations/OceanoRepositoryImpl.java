@@ -707,22 +707,25 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 // </editor-fold>
     
     
-   
+    // <editor-fold defaultstate="collapsed" desc="Long count(Search... search)">
+
     public Long count(Search... search) {
-      Long contador = 0L;
+        Long contador = 0L;
         try {
+           
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+            
             Document whereCondition = new Document();
             if (search.length != 0) {
                 whereCondition = search[0].getFilter();
             }
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
             if (whereCondition.isEmpty()) {
 //                contador = (int) collection.countDocuments();
                 contador = collection.countDocuments();
             } else {
                // contador = (int) collection.countDocuments(whereCondition);
-             contador = collection.countDocuments(whereCondition);
+                contador = collection.countDocuments(whereCondition);
             }
 
         } catch (Exception e) {

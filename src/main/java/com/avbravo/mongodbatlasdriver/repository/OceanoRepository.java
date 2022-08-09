@@ -26,10 +26,11 @@ import com.jmoordb.core.annotation.repository.RegexCount;
  *
  * @author avbravo
  */
-@RepositoryMongoDB(entity = Oceano.class,jakartaSource = JakartaSource.JAVAEE_LEGACY)
+@RepositoryMongoDB(entity = Oceano.class, jakartaSource = JakartaSource.JAVAEE_LEGACY)
 public interface OceanoRepository {
 //      @Mandatory
 //    String getFirstName();
+
     @Query()
     public List<Oceano> findAll();
 
@@ -48,23 +49,21 @@ public interface OceanoRepository {
     @Lookup()
     public List<Oceano> queryJSON(Search search, Pagination pagination, Sorted... sorted);
 
-    @Regex(where= "oceano",  caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    @Regex(where = "oceano", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
     public List<Oceano> findRegex(String value, Pagination pagination);
 
     @Count()
-    public Integer count(Document... query);
+    public Long count(Search... search);
 
     @RegexCount(where = "oceano .like. @oceano", caseSensitive = CaseSensitive.NO)
-    public Integer countRegex(String value);
+    public Long countRegex(String value);
 
     public Optional<Oceano> save(Oceano oceano);
-    
-
 
     public Boolean update(Oceano oceano);
 
     public Boolean delete(String id);
-    
+
     @Ping
     public Boolean ping();
 }
