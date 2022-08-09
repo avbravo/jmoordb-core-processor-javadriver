@@ -13,6 +13,7 @@ import com.jmoordb.core.util.MessagesUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
+import com.jmoordb.core.annotation.repository.Regex;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.model.Sorted;
 import com.mongodb.client.MongoClient;
@@ -297,104 +298,6 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="List<Oceano> findRegex(String query)">
-    /**
-     *
-     * @param value
-     * @param pagination
-     * @return
-     */
-    @Override
-    public List<Oceano> findRegex(String value, Pagination pagination) {
-        List<Oceano> list = new ArrayList<>();
-        try {
-            /**
-             * Leer la anotacion @QueryRegex field
-             */
-            String field = "oceano";
-//            ActivatePagination activatePagination = ActivatePagination.ON;
-            CaseSensitive caseSensitive = CaseSensitive.NO;
-            TypeOrder typeOrder = TypeOrder.ASC;
-            /**
-             * DataBase
-             */
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-
-            /**
-             * Generar el patron
-             */
-            Pattern regex = Pattern.compile(value);
-            /**
-             * Generar ordenación 1. Se usa el atriiuto field de la anotacion
-             *
-             * @QueruRegex
-             */
-            // Genera ordenacion
-            Integer order = 1;
-            if (typeOrder == TypeOrder.DESC) {
-                order = -1;
-            }
-            Document sort = new Document(field, order);
-            /**
-             * Se toma de la anotacion @QueryRegex campo caseSensitive con su
-             * valor
-             */
-
-            MongoCursor<Document> cursor;
-
-            /**
-             * Verificar si usara pagainación o no. Verificar si s usara
-             * caseSemsitive
-             */
-            if (activatePagination == ActivatePagination.OFF) {
-                if (caseSensitive == CaseSensitive.NO) {
-                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)))
-                            .sort(sort)
-                            .iterator();
-
-                } else {
-                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)
-                            .append("$options", "i")))
-                            .sort(sort)
-                            .iterator();
-
-                }
-            } else {
-                if (caseSensitive == CaseSensitive.NO) {
-                    cursor = collection
-                            .find(new Document(field, new Document("$regex", "^" + value)))
-                            .skip(pagination.skip())
-                            .limit(pagination.limit())
-                            .sort(sort).iterator();
-
-                } else {
-                    cursor = collection
-                            .find(new Document(field, new Document("$regex", "^" + value).append("$options", "i")))
-                            .skip(pagination.skip())
-                            .limit(pagination.limit())
-                            .sort(sort).iterator();
-
-                }
-            }
-
-            try {
-                while (cursor.hasNext()) {
-
-                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
-                }
-            } finally {
-                cursor.close();
-            }
-
-        } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
-
-        return list;
-    }
-// </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="List<Oceano> findByOceanoPagination(String oceano, Pagination pagination) ">
     /**
      *
@@ -674,10 +577,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             /**
              * Generar el patron
              */
-           // Pattern regex = Pattern.compile(value);
-
-        
-            if (caseSensitive.equals(CaseSensitive.NO) ) {
+            // Pattern regex = Pattern.compile(value);
+            if (caseSensitive.equals(CaseSensitive.NO)) {
                 contador = collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value)));
             } else {
                 contador = collection.countDocuments(new Document("oceano", new Document("$regex", "^" + value).append("$options", "i")));
@@ -690,5 +591,296 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return contador;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="List<Oceano> findRegex(String query)">
+    /**
+     *
+     * @param value
+     * @param pagination
+     * @return
+     */
+    @Override
+    @Regex(where = "oceano .like. @oceano  ", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    public List<Oceano> regex(String oceano) {
+        List<Oceano> list = new ArrayList<>();
+        try {
+            /**
+             * Leer la anotacion @QueryRegex field
+             */
+            String field = "oceano";
+//            ActivatePagination activatePagination = ActivatePagination.ON;
+            CaseSensitive caseSensitive = CaseSensitive.NO;
+            TypeOrder typeOrder = TypeOrder.ASC;
+            /**
+             * DataBase
+             */
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            /**
+             * Generar el patron
+             */
+       //     Pattern regex = Pattern.compile(oceano);
+            /**
+             * Generar ordenación 1. Se usa el atriiuto field de la anotacion
+             *
+             * @QueruRegex
+             */
+            // Genera ordenacion
+            Integer order = 1;
+            if (typeOrder == TypeOrder.DESC) {
+                order = -1;
+            }
+            Document sort = new Document(field, order);
+            /**
+             * Se toma de la anotacion @QueryRegex campo caseSensitive con su
+             * valor
+             */
+
+            MongoCursor<Document> cursor;
+
+            /**
+             * Verificar si usara pagainación o no. Verificar si s usara
+             * caseSemsitive
+             */
+            if (activatePagination == ActivatePagination.OFF) {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + oceano)))
+                            .sort(sort)
+                            .iterator();
+
+                } else {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + oceano).append("$options", "i")))
+                            .sort(sort)
+                            .iterator();
+
+                }
+            } else {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value)))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort)
+                            .iterator();
+
+                } else {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value).append("$options", "i")))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort).iterator();
+
+                }
+            }
+
+            try {
+                while (cursor.hasNext()) {
+
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return list;
+    }
+// </editor-fold>
+
+    @Override
+    @Regex(where = "oceano .like. @oceano  ", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    public Set<Oceano> regexOceano(String oceano) {
+        List<Oceano> list = new ArrayList<>();
+        try {
+            /**
+             * Leer la anotacion @QueryRegex field
+             */
+            String field = "oceano";
+//            ActivatePagination activatePagination = ActivatePagination.ON;
+            CaseSensitive caseSensitive = CaseSensitive.NO;
+            TypeOrder typeOrder = TypeOrder.ASC;
+            /**
+             * DataBase
+             */
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            /**
+             * Generar el patron
+             */
+            Pattern regex = Pattern.compile(value);
+            /**
+             * Generar ordenación 1. Se usa el atriiuto field de la anotacion
+             *
+             * @QueruRegex
+             */
+            // Genera ordenacion
+            Integer order = 1;
+            if (typeOrder == TypeOrder.DESC) {
+                order = -1;
+            }
+            Document sort = new Document(field, order);
+            /**
+             * Se toma de la anotacion @QueryRegex campo caseSensitive con su
+             * valor
+             */
+
+            MongoCursor<Document> cursor;
+
+            /**
+             * Verificar si usara pagainación o no. Verificar si s usara
+             * caseSemsitive
+             */
+            if (activatePagination == ActivatePagination.OFF) {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)))
+                            .sort(sort)
+                            .iterator();
+
+                } else {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)
+                            .append("$options", "i")))
+                            .sort(sort)
+                            .iterator();
+
+                }
+            } else {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value)))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort).iterator();
+
+                } else {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value).append("$options", "i")))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort).iterator();
+
+                }
+            }
+
+            try {
+                while (cursor.hasNext()) {
+
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        Set<Oceano> targetSet = new HashSet<>(list);
+        return targetSet;
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="List<Oceano> findRegex(String query)">
+    /**
+     *
+     * @param value
+     * @param pagination
+     * @return
+     */
+    @Override
+    @Regex(where = "oceano .like. @oceano .limit. pagination .skip. @pagination", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    public List<Oceano> regexPagintarion(String oceano, Pagination pagination) {
+        List<Oceano> list = new ArrayList<>();
+        try {
+            /**
+             * Leer la anotacion @QueryRegex field
+             */
+            String field = "oceano";
+//            ActivatePagination activatePagination = ActivatePagination.ON;
+            CaseSensitive caseSensitive = CaseSensitive.NO;
+            TypeOrder typeOrder = TypeOrder.ASC;
+            /**
+             * DataBase
+             */
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            /**
+             * Generar el patron
+             */
+            Pattern regex = Pattern.compile(value);
+            /**
+             * Generar ordenación 1. Se usa el atriiuto field de la anotacion
+             *
+             * @QueruRegex
+             */
+            // Genera ordenacion
+            Integer order = 1;
+            if (typeOrder == TypeOrder.DESC) {
+                order = -1;
+            }
+            Document sort = new Document(field, order);
+            /**
+             * Se toma de la anotacion @QueryRegex campo caseSensitive con su
+             * valor
+             */
+
+            MongoCursor<Document> cursor;
+
+            /**
+             * Verificar si usara pagainación o no. Verificar si s usara
+             * caseSemsitive
+             */
+            if (activatePagination == ActivatePagination.OFF) {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)))
+                            .sort(sort)
+                            .iterator();
+
+                } else {
+                    cursor = collection.find(new Document(field, new Document("$regex", "^" + value)
+                            .append("$options", "i")))
+                            .sort(sort)
+                            .iterator();
+
+                }
+            } else {
+                if (caseSensitive == CaseSensitive.NO) {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value)))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort).iterator();
+
+                } else {
+                    cursor = collection
+                            .find(new Document(field, new Document("$regex", "^" + value).append("$options", "i")))
+                            .skip(pagination.skip())
+                            .limit(pagination.limit())
+                            .sort(sort).iterator();
+
+                }
+            }
+
+            try {
+                while (cursor.hasNext()) {
+
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return list;
+    }
+// </editor-fold>
 
 }

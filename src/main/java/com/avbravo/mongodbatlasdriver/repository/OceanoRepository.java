@@ -21,6 +21,7 @@ import com.jmoordb.core.model.Sorted;
 import com.jmoordb.core.annotation.repository.Lookup;
 import com.jmoordb.core.annotation.repository.Regex;
 import com.jmoordb.core.annotation.repository.RegexCount;
+import java.util.Set;
 
 /**
  *
@@ -49,8 +50,18 @@ public interface OceanoRepository {
     @Lookup()
     public List<Oceano> queryJSON(Search search, Pagination pagination, Sorted... sorted);
 
-    @Regex(where = "oceano", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
-    public List<Oceano> findRegex(String value, Pagination pagination);
+     
+    
+    @Regex(where = "oceano .like. @oceano  ", caseSensitive = CaseSensitive.NO, typeOrder = TypeOrder.ASC)
+    public List<Oceano> regex(String oceano);
+
+    @Regex(where = "oceano .like. @oceano ", caseSensitive = CaseSensitive.YES, typeOrder = TypeOrder.DESC)
+    public Set<Oceano> regexOceano(String oceano);
+
+    @Regex(where = "oceano .like. @oceano .limit. pagination .skip. @pagination", caseSensitive = CaseSensitive.YES, typeOrder = TypeOrder.ASC)
+    public List<Oceano> regexPagintarion(String oceano, Pagination pagination);
+//    public List<Oceano> regexPagintarion(String oceano, Pagination pagination);
+    
 
     @Count()
     public Long count(Search... search);
