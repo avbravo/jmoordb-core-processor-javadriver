@@ -75,39 +75,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
     OceanoSupplier oceanoSupplier;
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="List<Oceano> findAll()">
-    @Override
-    public List<Oceano> findAll() {
 
-        List<Oceano> list = new ArrayList<>();
-        try {
-
-            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
-
-            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
-
-            /**
-             * Es una entidad de nivel 0 LookupSupplier.ZERO no usa lookup
-             *
-             */
-            MongoCursor<Document> cursor = collection.find().iterator();
-
-            try {
-                while (cursor.hasNext()) {
-
-                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
-                }
-            } finally {
-                cursor.close();
-            }
-
-        } catch (Exception e) {
-            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
-
-        return list;
-    }
-// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Optional<Oceano> findById(String id) ">
     @Override
@@ -900,6 +868,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return 0L;
     }
     // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Long delete(String idoceano, String oceano)">
+
    @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano ")
    public Long delete(String idoceano, String oceano){
         try {
@@ -921,6 +891,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return 0L;
    }
     // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Long deleteIdOceanoAndOceanoNotFecha(String idoceano, String oceano, Date fecha)">
+
    @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha")
    public Long deleteIdOceanoAndOceanoNotFecha(String idoceano, String oceano, Date fecha){
         try {
@@ -945,6 +917,8 @@ public class OceanoRepositoryImpl implements OceanoRepository {
         return 0L;
    }
     // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo)">
+
    @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha .or. activo .ne. @activo")
    public Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo){
         try {
@@ -972,6 +946,9 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
         return 0L;
    }
+   // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo, Integer km)">
+
    @Delete(where = "idoceano .eq. @idoceano .and. oceano .ne. @oceano .not. fecha .gt. @fecha .or. activo .ne. @activo .and. km .gt. km")
    public Long deleteIdOceanoAndOceanoNotFechaOrActivo(String idoceano, String oceano, Date fecha, String activo, Integer km){
         try {
@@ -1002,4 +979,43 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
         return 0L;
    }
+   // </editor-fold>
+   
+       // <editor-fold defaultstate="collapsed" desc="List<Oceano> findAll()">
+    @Override
+    public List<Oceano> findAll() {
+
+        List<Oceano> list = new ArrayList<>();
+        try {
+
+            MongoDatabase database = mongoClient.getDatabase(mongodbDatabase);
+
+            MongoCollection<Document> collection = database.getCollection(mongodbCollection);
+
+            /**
+             * Es una entidad de nivel 0 LookupSupplier.ZERO no usa lookup
+             *
+             */
+            MongoCursor<Document> cursor = collection.find().iterator();
+ Integer order = 1;
+            if (typeOrder == TypeOrder.DESC) {
+                order = -1;
+            }
+            
+            try {
+                while (cursor.hasNext()) {
+
+                    list.add(oceanoSupplier.get(Oceano::new, cursor.next()));
+                }
+            } finally {
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return list;
+    }
+// </editor-fold>
 }
