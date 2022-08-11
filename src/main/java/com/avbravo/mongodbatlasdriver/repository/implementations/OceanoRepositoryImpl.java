@@ -997,7 +997,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
              *
              */
             MongoCursor<Document> cursor = collection.find().iterator();
- Integer order = 1;
+            Integer order = 1;
             if (typeOrder == TypeOrder.DESC) {
                 order = -1;
             }
