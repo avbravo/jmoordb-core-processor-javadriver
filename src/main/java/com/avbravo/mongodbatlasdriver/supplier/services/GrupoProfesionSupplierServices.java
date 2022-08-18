@@ -72,7 +72,7 @@ public class GrupoProfesionSupplierServices implements Serializable {
        
             List<Document> documentPkList = DocumentUtil.getListValue(document, referenced);
             if (documentPkList == null || documentPkList.isEmpty()) {
-                MessagesUtil.msg("No se pudo decomponer la lista de id referenced....");
+                //MessagesUtil.msg("No se pudo decomponer la lista de id referenced....");
             } else {
                 for (Document documentPk : documentPkList) {
                     Optional<Grupoprofesion> optional = findByPK(documentPk, referenced);
