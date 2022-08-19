@@ -672,7 +672,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             if (typeOrder == TypeOrder.DESC) {
                 order = -1;
             }
-            Document sort = new Document(field, order);
+            Document sort = new Document("field", order);
             /**
              * Se toma de la anotacion @QueryRegex campo caseSensitive con su
              * valor
