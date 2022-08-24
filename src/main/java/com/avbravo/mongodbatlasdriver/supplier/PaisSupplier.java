@@ -13,6 +13,7 @@ import com.avbravo.mongodbatlasdriver.model.Musica;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
+import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.services.OceanoSupplierServices;
 import com.avbravo.mongodbatlasdriver.supplier.services.PlanetaSupplierServices;
 import java.io.Serializable;
@@ -48,6 +49,8 @@ public class PaisSupplier implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="@Inject">
     @Inject
     PlanetaSupplierServices planetaSupplierServices;
+    @Inject
+    PlanetaRepository planetaRepository;
     @Inject
     OceanoSupplierServices oceanoSupplierServices;
 // </editor-fold>
@@ -167,7 +170,19 @@ public class PaisSupplier implements Serializable {
                  * 1- Obtener la lista documento 2- Obtener un List<SDocument>
                  * de las llaves primarias
                  */
-                List<Planeta> planetaList = planetaSupplierServices.findAllByPK(document, planetaReferenced);
+                List<Planeta> planetaList = new ArrayList<>();
+                
+                List<Integer> planetaPKList = (List)document.get("planeta.idplaneta");
+                for(Integer index :planetaPKList){
+                    Optional<Planeta> planetaOptional=planetaRepository.findByPK(index);
+                    if(planetaOptional.isPresent()){
+                        planetaList.add(planetaOptional.get());
+                    }
+                    
+                }
+                pais.setPlaneta(planetaList);
+                
+   //             List<Planeta> planetaList = planetaSupplierServices.findAllByPK(document, planetaReferenced);
 
                 //pais.setPlaneta(planetaList);
             }
